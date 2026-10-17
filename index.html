@@ -16,7 +16,7 @@ async function getFeedback(){
  try{
   const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),100000);
   let response;
-  try{response=await fetch(AI_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({transcript,book:$('book').value.trim(),grade:$('grade').value,level:levels[level][0],mode,task:$('taskTitle').textContent}),signal:controller.signal})}
+  try{response=await fetch(AI_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({transcript,book:$('book').value.trim(),grade:Number($('grade').value.replace('Grade ', '')),level:level+1,mode,task:$('taskTitle').textContent}),signal:controller.signal})}
   finally{clearTimeout(timeout)}
   let data=await response.json().catch(()=>({}));
   if(!response.ok)throw new Error(data.error||data.message||'Service unavailable ('+response.status+')');
